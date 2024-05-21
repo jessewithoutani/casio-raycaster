@@ -4,9 +4,12 @@ import casioplot
 
 print("LOADING...")
 
-WIDTH = 128
-RAYS = 32
-HEIGHT = 63
+X_OFFSET = 14
+Y_OFFSET = 9
+
+WIDTH = 96
+RAYS = 16
+HEIGHT = 54
 
 # WIDTH = 21
 # HEIGHT = 7
@@ -16,7 +19,7 @@ FOV = math.pi / 6
 RENDER_DISTANCE = 18
 RAYCAST_PERCISION = 0.135
 
-SHADES = "█▓▒░"
+SHADES = "            "
 
 # SHADES = "#$=."
 SHADES_LEN = len(SHADES)
@@ -96,24 +99,30 @@ def update():
 
     # =============================================================
 
-    middle = int(HEIGHT / 2)
+    middle = Y_OFFSET + int(HEIGHT / 2)
     bar_width = int(WIDTH / RAYS)
 
     casioplot.clear_screen()
     for i in range(RAYS):
         cur = math.floor(bar_heights[i])
         
-        # if cur > 0:
-        #     casioplot.set_pixel(i, middle + int(cur / 2) + 1)
-        #     casioplot.set_pixel(i, middle - int(cur / 2) - 1)
-        # else: casioplot.set_pixel(i, middle)
-
-
         for hehe in range(bar_width):
-            casioplot.set_pixel(i * bar_width + hehe, middle)
-            for j in range(int(cur / 2)):
-                casioplot.set_pixel(i * bar_width + hehe, middle + j + 1)
-                casioplot.set_pixel(i * bar_width + hehe, middle - j - 1)
+            if cur > 0:
+                casioplot.set_pixel(X_OFFSET + i * bar_width + hehe, middle + int(cur / 2) + 1)
+                casioplot.set_pixel(X_OFFSET + i * bar_width + hehe, middle - int(cur / 2) - 1)
+            else: casioplot.set_pixel(X_OFFSET + i * bar_width + hehe, middle)
+        
+        casioplot.set_pixel(X_OFFSET + i * bar_width, middle)
+        for j in range(int(cur / 2)):
+            casioplot.set_pixel(X_OFFSET + i * bar_width, middle + j + 1)
+            casioplot.set_pixel(X_OFFSET + i * bar_width, middle - j - 1)
+
+
+        # for hehe in range(bar_width):
+        #     casioplot.set_pixel(i * bar_width + hehe, middle)
+        #     for j in range(int(cur / 2)):
+        #         casioplot.set_pixel(i * bar_width + hehe, middle + j + 1)
+        #         casioplot.set_pixel(i * bar_width + hehe, middle - j - 1)
     casioplot.draw_string(2, 2, "Raycasting Engine DEMO")
     casioplot.show_screen()
     
